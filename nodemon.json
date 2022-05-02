@@ -3,7 +3,7 @@
   "runOnChangeOnly": false,
   "ignore": ["**/*.test.ts", "**/*.spec.ts", "node_modules", "@types", ".types", "tests", "**/*.js.map"],
   "watch": ["src/server"],
-  "exec": "tsc -p tsconfig.server.json && node server/",
+  "exec": "rm -rf .build && tsc -p tsconfig.server.json && node --inspect .build",
   "ext": "ts",
   "delay": 0.5
 }

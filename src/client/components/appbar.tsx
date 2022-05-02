@@ -10,11 +10,10 @@ import Container from '@mui/material/Container'
 import MenuIcon from '@mui/icons-material/Menu'
 
 import MenuItem from '@mui/material/MenuItem'
-
-import LinkMenuButton from '../components/link-menu-button'
-import CustomLink from './link'
-import { NavLink } from 'react-router-dom'
 import styled from '@emotion/styled'
+import { NavLink } from 'react-router-dom'
+
+import routes from '../client-routes'
 
 const APP_NAME = 'MY APP 🧪'
 
@@ -93,42 +92,48 @@ const ResponsiveAppBar = () => {
                 display: { xs: 'block', md: 'none' },
               }}
             >
-              {pages.map((page) => (
-                <StyledNavLink
-                  to={page.to}
-                  key={'navbar-menu-item-' + page.name}
-                  children={({ isActive }) => {
-                    return (
-                      <MenuItem onClick={handleCloseNavMenu} selected={isActive}>
-                        {page.name}
-                      </MenuItem>
-                    )
-                  }}
-                />
-              ))}
+              {routes.map(
+                (route) =>
+                  route.name && (
+                    <StyledNavLink
+                      to={route.path}
+                      key={'navbar-menu-item-' + route.name}
+                      children={({ isActive }) => {
+                        return (
+                          <MenuItem onClick={handleCloseNavMenu} selected={isActive}>
+                            {route.name}
+                          </MenuItem>
+                        )
+                      }}
+                    />
+                  ),
+              )}
             </Menu>
           </Box>
           <AppName />
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
-            {pages.map((page) => (
-              // <Button key={'navbar-mobile-menu-item-' + page.name} component={StyledNavLink} to={page.to} variant="text">{page.name}</Button>
-              <StyledNavLink
-                to={page.to}
-                key={'navbar-mobile-menu-item-' + page.name}
-                children={({ isActive }) => {
-                  return (
-                    <Button
-                      key={page.name}
-                      onClick={handleCloseNavMenu}
-                      color="inherit"
-                      variant={isActive ? 'outlined' : 'text'}
-                    >
-                      {page.name}
-                    </Button>
-                  )
-                }}
-              />
-            ))}
+            {routes.map(
+              (route) =>
+                // <Button key={'navbar-mobile-menu-item-' + page.name} component={StyledNavLink} to={page.to} variant="text">{page.name}</Button>
+                route.name && (
+                  <StyledNavLink
+                    to={route.path}
+                    key={'navbar-mobile-menu-item-' + route.name}
+                    children={({ isActive }) => {
+                      return (
+                        <Button
+                          key={route.name}
+                          onClick={handleCloseNavMenu}
+                          color="inherit"
+                          variant={isActive ? 'outlined' : 'text'}
+                        >
+                          {route.name}
+                        </Button>
+                      )
+                    }}
+                  />
+                ),
+            )}
           </Box>
         </Toolbar>
       </Container>

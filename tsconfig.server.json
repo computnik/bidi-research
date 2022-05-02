@@ -10,7 +10,7 @@
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
     "allowSyntheticDefaultImports": true,
-    "outDir": "./server",
+    "outDir": "./.build",
     "moduleResolution": "node",
     "sourceMap": true
   },

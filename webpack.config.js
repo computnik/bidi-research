@@ -1,14 +1,20 @@
 const path = require('path')
+const fs = require('fs')
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 
-const outputDirectory = 'dist'
+// const outputDirectory = 'dist'
+
+const KEY_PATH = path.resolve('certs/key.pem')
+const CERT_PATH = path.resolve('certs/server.crt')
+const STATIC_FILES_PATH = path.resolve('dist')
+
 
 module.exports = {
   entry: ['./src/client/index.tsx'],
   output: {
-    path: path.join(__dirname, outputDirectory),
+    path: STATIC_FILES_PATH,
     filename: './js/[name].bundle.js',
   },
   devtool: 'source-map',
@@ -39,9 +45,19 @@ module.exports = {
     port: 8000,
     open: true,
     hot: true,
+    historyApiFallback: true, //setting devserver to serve on all routes
+    http2: true,
+    server: {
+      type: 'https',
+      options: {
+        minVersion: 'TLSv1.1',
+        key: fs.readFileSync(KEY_PATH),
+        cert: fs.readFileSync(CERT_PATH),
+      },
+    },
     proxy: {
       '/api': {
-        target: 'http://localhost:8001',
+        target: 'https://localhost:8001',
         secure: false,
         changeOrigin: true,
       },
